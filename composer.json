@@ -1,5 +1,5 @@
 {
-    "name": "cupoftea/abstract-api",
+    "name": "cupoftea/apilib",
     "description": "Abstract classes for creating an API library",
     "keywords": ["API", "library", "abstract"],
     "license": "MIT",
