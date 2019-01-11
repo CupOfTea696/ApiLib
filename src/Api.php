@@ -206,6 +206,7 @@ abstract class Api implements PackageContract
      * Use a given API version.
      * 
      * @param string $version
+     * @return void
      */
     final public function useVersion($version)
     {
@@ -358,8 +359,14 @@ abstract class Api implements PackageContract
         return $result;
     }
     
-    // API magic.
-    final public function __call($method, $args)
+    /**
+     * Handle dynamic calls to the Api.
+     * 
+     * @param  string $method
+     * @param  array $args
+     * @return mixed
+     */
+    public function __call($method, $args)
     {
         try {
             if (! $this->endpoint) {
@@ -371,7 +378,7 @@ abstract class Api implements PackageContract
             }
             
             if ($this->hasBody() && $method === 'body') {
-                return $this->setBody(...$args);
+                return $this->handleBody(...$args);
             }
             
             if ($this->hasParameter($method)) {
@@ -383,7 +390,7 @@ abstract class Api implements PackageContract
             $message = $e->getMessage();
             $endpointRegex = '~^The endpoint \'([^\']+)\' does not exist$~';
             $actionRegex = '~^The endpoint \'([^\']+)\' does not support \'([^\']+)\'$~';
-            $parameterQueryRegex = '~^The (parameter|query) \'([^\']+)\' is not supported by \'([^\']+)\'$~';
+            $bodyParameterQueryRegex = '~^(A|The) (request body|(parameter|query) \'([^\']+)\') is not supported by \'([^\']+)\'$~';
             $actionMissingArgRegex = '~^Missing argument (\d+) for \'([^\']+)\'$~';
             $actionArgTypeMisatchRegex = '~^Argument (\d+) passed to \'([^\']+)\' must be of type (\w+), (\w+) given$~';
             
@@ -395,7 +402,7 @@ abstract class Api implements PackageContract
                 throw new BadMethodCallException("Call to undefined method " . static::class . "::{$this->endpoint}()->{$method}()");
             }
             
-            if (preg_match($parameterQueryRegex, $message)) {
+            if (preg_match($bodyParameterQueryRegex, $message)) {
                 throw new BadMethodCallException("Call to undefined method " . static::class . "::{$this->endpoint}()->{$this->action}()->{$method}()");
             }
             
@@ -460,7 +467,6 @@ abstract class Api implements PackageContract
         $this->definition = $definition;
     }
     
-    // $this->users();
     /**
      * Handle a dynamic endpoint call.
      * 
@@ -485,13 +491,6 @@ abstract class Api implements PackageContract
         return $this;
     }
     
-    // $this->users()->index();
-    // $this->users()->index(['delay' => 1]);
-    // $this->users()->show();
-    // $this->users()->show(1);
-    // $this->users()->show(2, ['delay' => 1]);
-    // $this->users()->update(1, ['fname' => 'Frankie', 'lname' => Wittevrongel]);
-    // $this->users()->update(1, ['fname' => 'Frankie', 'lname' => Wittevrongel], ['delay' => 1]);
     /**
      * Handle a dynamic action call.
      * 
@@ -544,7 +543,23 @@ abstract class Api implements PackageContract
         return $this;
     }
     
-    // $this->users()->show()->userId(1);
+    /**
+     * Handle a dynamic body call.
+     * 
+     * @param  mixed $body
+     * @return \CupOfTea\ApiLib\Api
+     */
+    protected function handleBody($body)
+    {
+        if (! $this->hasBody()) {
+            throw new InvalidArgumentException("A request body is not supported by '{$this->endpoint}.{$this->action}'");
+        }
+        
+        $this->setBody($body);
+        
+        return $this;
+    }
+    
     /**
      * Handle a dynamic parameter call.
      * 
@@ -563,7 +578,6 @@ abstract class Api implements PackageContract
         return $this;
     }
     
-    // $this->users()->index()->page(2);
     /**
      * Handle a dynamic query call.
      * 
