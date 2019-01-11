@@ -1,0 +1,36 @@
+{
+    "name": "cupoftea/abstract-api",
+    "description": "Abstract classes for creating an API library",
+    "keywords": ["API", "library", "abstract"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Frankie Wittevrongel",
+            "email": "frankie@cupoftea.io"
+        }
+    ],
+    "require": {
+        "cupoftea/json": "^1.0",
+        "cupoftea/package": "^1.4",
+        "guzzlehttp/guzzle": "^6.3",
+        "illuminate/filesystem": "^5.7",
+        "illuminate/support": "^5.7",
+        "symfony/debug": "^4.2",
+        "symfony/var-dumper": "^4.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "CupOfTea\\ApiLib\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "scripts": {
+        "test": "phpunit --colors=always --testdox"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
