@@ -6,8 +6,8 @@ use LogicException;
 use BadMethodCallException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use InvalidArgumentException;
 use CupOfTea\Package\Package;
+use InvalidArgumentException;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Client as HttpClient;
 use Psr\Http\Message\StreamInterface;
@@ -42,21 +42,21 @@ abstract class Api implements PackageContract
     
     /**
      * Array representation of the API.
-     * 
+     *
      * @var array
      */
     protected $api;
     
     /**
      * Default options for the Guzzle Client.
-     * 
+     *
      * @var array
      */
     protected $options = [];
     
     /**
      * HTTP methods for each API endpoint.
-     * 
+     *
      * @var array
      */
     protected $methods = [
@@ -69,28 +69,28 @@ abstract class Api implements PackageContract
     
     /**
      * ApiDefinition instance.
-     * 
+     *
      * @var \CupOfTea\ApiLib\ApiDefinition
      */
     private $definition;
     
     /**
      * Http Client instance.
-     * 
+     *
      * @var \GuzzleHttp\Client
      */
     private $client;
     
     /**
      * Http Client instances.
-     * 
+     *
      * @var \GuzzleHttp\Client[]
      */
     private $clients = [];
     
     /**
      * API actions.
-     * 
+     *
      * @var array
      */
     private $actions = [
@@ -103,7 +103,7 @@ abstract class Api implements PackageContract
     
     /**
      * Http methods that have a body.
-     * 
+     *
      * @var array
      */
     private $methodsWithBody = [
@@ -114,42 +114,42 @@ abstract class Api implements PackageContract
     
     /**
      * Current endpoint.
-     * 
+     *
      * @var string
      */
     private $endpoint;
     
     /**
      * Current action.
-     * 
+     *
      * @var string
      */
     private $action;
     
     /**
      * Request body.
-     * 
+     *
      * @var mixed
      */
     private $body;
     
     /**
      * Request parameters.
-     * 
+     *
      * @var array
      */
     private $parameters = [];
     
     /**
      * Request query.
-     * 
+     *
      * @var array
      */
     private $query = [];
     
     /**
      * Create a new Api instance.
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -163,7 +163,7 @@ abstract class Api implements PackageContract
     
     /**
      * Check if the API is versioned.
-     * 
+     *
      * @return bool
      */
     final public function isVersioned()
@@ -172,8 +172,8 @@ abstract class Api implements PackageContract
     }
     
     /**
-     * Check if the API has a given version
-     * 
+     * Check if the API has a given version.
+     *
      * @param  string|int $version
      * @return bool
      */
@@ -184,7 +184,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the available versions of the API.
-     * 
+     *
      * @return array
      */
     final public function getVersions()
@@ -194,7 +194,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the current active version.
-     * 
+     *
      * @return string|null
      */
     final public function currentVersion()
@@ -204,7 +204,7 @@ abstract class Api implements PackageContract
     
     /**
      * Use a given API version.
-     * 
+     *
      * @param string $version
      * @return void
      */
@@ -215,7 +215,7 @@ abstract class Api implements PackageContract
     
     /**
      * Check if the current version has a given endpoint.
-     * 
+     *
      * @param  string $endpoint
      * @return bool
      */
@@ -226,7 +226,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the endpoints for the current version.
-     * 
+     *
      * @return array
      */
     final public function getEndPoints()
@@ -236,7 +236,7 @@ abstract class Api implements PackageContract
     
     /**
      * Check if the current endpoint has a given action.
-     * 
+     *
      * @param  string $action
      * @return bool
      */
@@ -251,7 +251,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the actions for the current endpoint.
-     * 
+     *
      * @return array
      */
     final public function getActions()
@@ -265,7 +265,7 @@ abstract class Api implements PackageContract
     
     /**
      * Check if the current endpoint action has a body.
-     * 
+     *
      * @return bool
      */
     final public function hasBody()
@@ -279,7 +279,7 @@ abstract class Api implements PackageContract
     
     /**
      * Check if the current endpoint action has a given parameter.
-     * 
+     *
      * @param  string $parameter
      * @return bool
      */
@@ -294,7 +294,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the parameters for the current endpoint action.
-     * 
+     *
      * @return array
      */
     final public function getParameters()
@@ -308,7 +308,7 @@ abstract class Api implements PackageContract
     
     /**
      * Check if the current endpoint action has a given query.
-     * 
+     *
      * @param  string $query
      * @return bool
      */
@@ -323,7 +323,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the queries for the current endpoint action.
-     * 
+     *
      * @return array
      */
     final public function getQueries()
@@ -337,7 +337,7 @@ abstract class Api implements PackageContract
     
     /**
      * Call the API.
-     * 
+     *
      * @return mixed
      */
     final public function call()
@@ -361,7 +361,7 @@ abstract class Api implements PackageContract
     
     /**
      * Handle dynamic calls to the Api.
-     * 
+     *
      * @param  string $method
      * @param  array $args
      * @return mixed
@@ -395,15 +395,15 @@ abstract class Api implements PackageContract
             $actionArgTypeMisatchRegex = '~^Argument (\d+) passed to \'([^\']+)\' must be of type (\w+), (\w+) given$~';
             
             if (preg_match($endpointRegex, $message)) {
-                throw new BadMethodCallException("Call to undefined method " . static::class . "::{$method}()");
+                throw new BadMethodCallException('Call to undefined method ' . static::class . "::{$method}()");
             }
             
             if (preg_match($actionRegex, $message)) {
-                throw new BadMethodCallException("Call to undefined method " . static::class . "::{$this->endpoint}()->{$method}()");
+                throw new BadMethodCallException('Call to undefined method ' . static::class . "::{$this->endpoint}()->{$method}()");
             }
             
             if (preg_match($bodyParameterQueryRegex, $message)) {
-                throw new BadMethodCallException("Call to undefined method " . static::class . "::{$this->endpoint}()->{$this->action}()->{$method}()");
+                throw new BadMethodCallException('Call to undefined method ' . static::class . "::{$this->endpoint}()->{$this->action}()->{$method}()");
             }
             
             if (preg_match($actionMissingArgRegex, $message, $matches)) {
@@ -420,7 +420,7 @@ abstract class Api implements PackageContract
     
     /**
      * Normalize the version string.
-     * 
+     *
      * @param  string $version
      * @return string
      */
@@ -431,7 +431,7 @@ abstract class Api implements PackageContract
     
     /**
      * Process the API call's response.
-     * 
+     *
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @return mixed
      */
@@ -439,7 +439,7 @@ abstract class Api implements PackageContract
     
     /**
      * Process the API call's RequestException.
-     * 
+     *
      * @param  \GuzzleHttp\Exception\RequestException $e
      * @return mixed
      */
@@ -447,7 +447,7 @@ abstract class Api implements PackageContract
     
     /**
      * Reset the API to its initial state.
-     * 
+     *
      * @return void
      */
     final protected function reset()
@@ -458,7 +458,7 @@ abstract class Api implements PackageContract
     
     /**
      * Set the ApiDefinition instance.
-     * 
+     *
      * @param  \CupOfTea\ApiLib\ApiDefinition $definition
      * @return void
      */
@@ -469,7 +469,7 @@ abstract class Api implements PackageContract
     
     /**
      * Handle a dynamic endpoint call.
-     * 
+     *
      * @param  string $endpoint
      * @param  array $args
      * @return \CupOfTea\ApiLib\Api
@@ -493,7 +493,7 @@ abstract class Api implements PackageContract
     
     /**
      * Handle a dynamic action call.
-     * 
+     *
      * @param  string $action
      * @param  array $args
      * @return \CupOfTea\ApiLib\Api
@@ -512,7 +512,7 @@ abstract class Api implements PackageContract
             return $this;
         } elseif ($this->hasBody()) {
             if ($argCount < count($parameterNames = $this->getParameters()) + 1) {
-                throw new BadMethodCallException("Missing argument " . (count($args) + 1) . " for '{$this->endpoint}.{$action}'");
+                throw new BadMethodCallException('Missing argument ' . (count($args) + 1) . " for '{$this->endpoint}.{$action}'");
             }
             
             $values = array_splice($args, 0, count($parameterNames));
@@ -522,7 +522,7 @@ abstract class Api implements PackageContract
             $this->setParameters($parameters);
             $this->setBody($body);
         } elseif ($argCount < count($parameterNames = $this->getParameters())) {
-            throw new BadMethodCallException("Missing argument " . (count($args) + 1) . " for '{$this->endpoint}.{$action}'");
+            throw new BadMethodCallException('Missing argument ' . (count($args) + 1) . " for '{$this->endpoint}.{$action}'");
         } else {
             $values = array_splice($args, 0, count($parameterNames));
             $parameters = array_combine($parameterNames, $values);
@@ -545,7 +545,7 @@ abstract class Api implements PackageContract
     
     /**
      * Handle a dynamic body call.
-     * 
+     *
      * @param  mixed $body
      * @return \CupOfTea\ApiLib\Api
      */
@@ -562,7 +562,7 @@ abstract class Api implements PackageContract
     
     /**
      * Handle a dynamic parameter call.
-     * 
+     *
      * @param  string $parameter
      * @param  mixed $value
      * @return \CupOfTea\ApiLib\Api
@@ -580,7 +580,7 @@ abstract class Api implements PackageContract
     
     /**
      * Handle a dynamic query call.
-     * 
+     *
      * @param  string $query
      * @param  mixed $value
      * @return \CupOfTea\ApiLib\Api
@@ -598,7 +598,7 @@ abstract class Api implements PackageContract
     
     /**
      * Set the request body.
-     * 
+     *
      * @param  mixed $body
      * @return void
      */
@@ -613,7 +613,7 @@ abstract class Api implements PackageContract
     
     /**
      * Set the request parameters.
-     * 
+     *
      * @param  array $parameters
      * @return void
      */
@@ -626,7 +626,7 @@ abstract class Api implements PackageContract
     
     /**
      * Set the request query.
-     * 
+     *
      * @param  array $query
      * @return void
      */
@@ -639,7 +639,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the current endpoint.
-     * 
+     *
      * @return string
      */
     final protected function endpoint()
@@ -649,7 +649,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the current action.
-     * 
+     *
      * @return string
      */
     final protected function action()
@@ -659,7 +659,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the request body.
-     * 
+     *
      * @return mixed
      */
     final protected function body()
@@ -669,7 +669,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the request parameters.
-     * 
+     *
      * @return array
      */
     final protected function parameters()
@@ -679,7 +679,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the request query.
-     * 
+     *
      * @return array
      */
     final protected function query()
@@ -689,7 +689,7 @@ abstract class Api implements PackageContract
     
     /**
      * Send the API request.
-     * 
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     final protected function send()
@@ -715,7 +715,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the ApiDefinition instance.
-     * 
+     *
      * @return \CupOfTea\ApiLib\ApiDefinition
      */
     final protected function api()
@@ -725,7 +725,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the API's base URI.
-     * 
+     *
      * @return \GuzzleHttp\Psr7\Uri
      */
     final protected function getBaseUri()
@@ -735,7 +735,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the Http Client.
-     * 
+     *
      * @return \GuzzleHttp\Client
      */
     final protected function getClient()
@@ -745,7 +745,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the versioned Http Client for the current version.
-     * 
+     *
      * @return \GuzzleHttp\Client
      */
     private function getVersionedClient()
@@ -759,7 +759,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the Http Client for an unversioned API.
-     * 
+     *
      * @return \GuzzleHttp\Client
      */
     private function getUnversionedClient()
@@ -773,7 +773,7 @@ abstract class Api implements PackageContract
     
     /**
      * Create the Http Client.
-     * 
+     *
      * @return \GuzzleHttp\Client
      */
     private function createClient()
@@ -787,13 +787,13 @@ abstract class Api implements PackageContract
     
     /**
      * Get the headers for the Http Client.
-     * 
+     *
      * @param  array $options
      * @return array
      */
     private function getHeaders(array $options)
     {
-        $userAgent  = static::getPackageInfo('V/P/n');
+        $userAgent = static::getPackageInfo('V/P/n');
         $userAgent .= ' Guzzle/' . ClientInterface::VERSION;
         
         if (extension_loaded('curl')) {
@@ -812,7 +812,7 @@ abstract class Api implements PackageContract
     
     /**
      * Get the Http method for the current action.
-     * 
+     *
      * @return string
      */
     private function getActionMethod()
