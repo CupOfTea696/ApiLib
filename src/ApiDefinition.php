@@ -3,9 +3,7 @@
 namespace CupOfTea\ApiLib;
 
 use GuzzleHttp\Psr7;
-use GuzzleHttp\Client;
 use CupOfTea\Support\Json;
-use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use Illuminate\Filesystem\Filesystem;
@@ -14,28 +12,28 @@ final class ApiDefinition
 {
     /**
      * API definition.
-     * 
+     *
      * @var array
      */
     protected $definition;
     
     /**
      * API.
-     * 
+     *
      * @var array
      */
     protected $api;
     
     /**
      * The current version.
-     * 
+     *
      * @var string
      */
     protected $version;
     
     /**
      * Create a new ApiDefinition instance.
-     * 
+     *
      * @param  array|ArrayAccess $definition
      * @param  string $version
      * @return void
@@ -59,7 +57,7 @@ final class ApiDefinition
     
     /**
      * Create a new ApiDefinition instance from an array.
-     * 
+     *
      * @param  array|ArrayAccess $data
      * @param  string $version
      * @return \CupOfTea\ApiLib\ApiDefinition
@@ -71,7 +69,7 @@ final class ApiDefinition
     
     /**
      * Create a new ApiDefinition instance from a JSON file.
-     * 
+     *
      * @param  string $path
      * @param  string $version
      * @return \CupOfTea\ApiLib\ApiDefinition
@@ -91,7 +89,7 @@ final class ApiDefinition
     
     /**
      * Create a new ApiDefinition instance from a PHP file.
-     * 
+     *
      * @param  string $path
      * @param  string $version
      * @return \CupOfTea\ApiLib\ApiDefinition
@@ -111,7 +109,7 @@ final class ApiDefinition
     
     /**
      * Check if the API is versioned.
-     * 
+     *
      * @return bool
      */
     public function isVersioned()
@@ -120,8 +118,8 @@ final class ApiDefinition
     }
     
     /**
-     * Check if the API has a given version
-     * 
+     * Check if the API has a given version.
+     *
      * @param  string|int $version
      * @return bool
      */
@@ -132,7 +130,7 @@ final class ApiDefinition
     
     /**
      * Get the available versions of the API.
-     * 
+     *
      * @return array
      */
     public function getVersions()
@@ -142,7 +140,7 @@ final class ApiDefinition
     
     /**
      * Get the current active version.
-     * 
+     *
      * @return string|null
      */
     public function currentVersion()
@@ -152,7 +150,7 @@ final class ApiDefinition
     
     /**
      * Use a given API version.
-     * 
+     *
      * @param string $version
      * @return void
      */
@@ -171,7 +169,7 @@ final class ApiDefinition
     
     /**
      * Get the base URI for the API.
-     * 
+     *
      * @return \GuzzleHttp\Psr7\Uri
      */
     public function getBaseUri()
@@ -181,7 +179,7 @@ final class ApiDefinition
     
     /**
      * Check if the current version has a given endpoint.
-     * 
+     *
      * @param  string $endpoint
      * @return bool
      */
@@ -192,7 +190,7 @@ final class ApiDefinition
     
     /**
      * Get the endpoints for the current version.
-     * 
+     *
      * @return array
      */
     public function getEndpoints()
@@ -202,7 +200,7 @@ final class ApiDefinition
     
     /**
      * Check if the given endpoint has a given action.
-     * 
+     *
      * @param  string $endpoint
      * @param  string $action
      * @return bool
@@ -214,7 +212,7 @@ final class ApiDefinition
     
     /**
      * Get the actions for a given endpoint.
-     * 
+     *
      * @param  string $endpoint
      * @return array
      */
@@ -225,7 +223,7 @@ final class ApiDefinition
     
     /**
      * Check if the given endpoint action has a given parameter.
-     * 
+     *
      * @param  string $endpoint
      * @param  string $action
      * @param  string $parameter
@@ -238,7 +236,7 @@ final class ApiDefinition
     
     /**
      * Get the parameters for a given endpoint action.
-     * 
+     *
      * @param  string $endpoint
      * @param  string $action
      * @return array
@@ -250,7 +248,7 @@ final class ApiDefinition
     
     /**
      * Check if the given endpoint action has a given query.
-     * 
+     *
      * @param  string $endpoint
      * @param  string $action
      * @param  string $query
@@ -263,7 +261,7 @@ final class ApiDefinition
     
     /**
      * Get the queries for a given endpoint action.
-     * 
+     *
      * @param  string $endpoint
      * @param  string $action
      * @return array
@@ -275,7 +273,7 @@ final class ApiDefinition
     
     /**
      * Build the API request path for a given endpoint action.
-     * 
+     *
      * @param  string $endpoint
      * @param  string $action
      * @param  array $parameters
@@ -293,7 +291,7 @@ final class ApiDefinition
     
     /**
      * Validate the API definition.
-     * 
+     *
      * @return void
      * @throws \InvalidArgumentException
      */
@@ -312,7 +310,7 @@ final class ApiDefinition
     
     /**
      * Get the property for the current API version.
-     * 
+     *
      * @param  string $prop
      * @return mixed
      */
@@ -329,7 +327,7 @@ final class ApiDefinition
     
     /**
      * Get the endpoint definitions for the current version.
-     * 
+     *
      * @return array
      */
     protected function endpoints()
@@ -339,7 +337,7 @@ final class ApiDefinition
     
     /**
      * Get the parameter definitions for the current version.
-     * 
+     *
      * @return array
      */
     protected function parameters()
@@ -349,7 +347,7 @@ final class ApiDefinition
     
     /**
      * Get the query definitions for the current version.
-     * 
+     *
      * @return array
      */
     protected function query()
@@ -359,7 +357,7 @@ final class ApiDefinition
     
     /**
      * Buid the API defitions.
-     * 
+     *
      * @return void
      */
     protected function build()
@@ -382,7 +380,7 @@ final class ApiDefinition
     
     /**
      * Build the API defition from an array.
-     * 
+     *
      * @param  array $definition
      * @return array
      */
@@ -440,7 +438,7 @@ final class ApiDefinition
     
     /**
      * Get the parameter names from the URI path.
-     * 
+     *
      * @param  string $path
      * @return array
      */
