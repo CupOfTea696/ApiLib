@@ -38,7 +38,7 @@ abstract class Api implements PackageContract
      *
      * @const string
      */
-    const VERSION = '1.0.0';
+    const VERSION = '1.0.1';
     
     /**
      * Array representation of the API.
